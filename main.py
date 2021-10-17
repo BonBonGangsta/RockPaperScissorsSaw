@@ -6,11 +6,13 @@
 # Goal: Prompt for player's names.
 # restrictions: Names must be within the Minimum Size and Maximum Size set AND must be unique to each other
 
+## imports
+import random
+
 player1Name = ""
 player2Name = ""
 MAXSIZE = 20
 MINSIZE = 5
-
 
 # INITIAL SCREEN
 # name is unique if and only if, the names are not the same regardless of capitalization
@@ -39,7 +41,7 @@ while not validateName(player2Name, player1Name):
               "less than " + str(MAXSIZE) + " characters AND must be unique compared to " + player1Name + "'s name.")
 
 # REMINDER TO ADD THE INITIALIZATION OF ARRAYS
-initializeStats()
+
 
 # MENU
 gameExited = False
@@ -146,3 +148,14 @@ def getWinner(playerChoice, computerChoice):
 
 # GAME
 
+def play():
+    userChoice = None
+    while not (4 >= userChoice >= 1):
+        userChoice = int(input(player1Name + ", What will be your weapon of choice '1' for Rock, '2' for Paper, '3' Scissors, '4' for Saw.\n"))
+    while not (4 >= userChoice >= 1):
+        userChoice = int(input(player2Name + ", What will be your weapon of choice '1' for Rock, '2' for Paper, '3' Scissors, '4' for Saw.\n"))
+    computerChoice = random.randint(1,4)
+
+def updateWinner(playerWeapon, computerWeapon):
+    if (playerWeapon == computerWeapon)
+        return 0
