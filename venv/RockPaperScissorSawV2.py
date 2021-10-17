@@ -83,7 +83,7 @@ def menu():
         elif choice == 2:
             rules()
         elif choice == 3:
-            tats()
+            stats()
         elif choice == 4:
             exit()
 
@@ -121,8 +121,6 @@ def incrementPlayerStat(player, category, array):
 
 def getStat(player, category):
     return currentStats[player][category]
-
-
 
 ## Rules Module
 
