@@ -12,7 +12,7 @@ MAXSIZE = 20
 MINSIZE = 5
 # MENU
 gameExited = False
-menuText = "Please select a menu item by entering it's corresponding number and hitting enter" \
+menuText = "Please select a menu item by entering its corresponding number and hitting enter" \
            ":\n1. Play game\n2. Show game rules\n3. Show Statistics\n4. Exit"
 # STATISTICS
 overallStats = None
@@ -60,14 +60,20 @@ def showMenu():
 
 # print the menu and retrieve the players choice, if an invalid choice is given, give an error
 def getMenuSelection():
-    validChoice = False
-    while not validChoice:
+    while True:
         showMenu()
-        choice = input()
-        if choice not in ['1','2', '3', '4']:
-            print(f"ERROR: Invalid menu option entered. Please review the menu options and choose wisely")
-        validChoice = True
-        return choice
+        menuChoice = input()
+        try:
+            menuChoice = int(menuChoice)
+        except ValueError:
+            print(f'ERROR: please enter a number corresponding to menu option\n')
+            continue
+        if 1<= menuChoice <= 4:
+            return str(menuChoice)
+        else:
+            print(f'ERROR: please enter a number corresponding to menu option\n')
+
+
 
 # this will control which other functions to call. While the menu is not exited, return to the menu.
 def menu():
@@ -144,24 +150,10 @@ def getWinner(playerChoice, computerChoice):
 
 def play():
     stopPlaying = False
-    chooseYourWeapon = 'What weapon will you choose? "1" Rock, "2" Paper, "3" Scissors, or "4" Saw\n'
-    p1WoC = None
-    p2WoC = None
-    compWoC = None
     while not stopPlaying:
         for i in range(1,4):
-            p1ValidChoice = False
-            while not p1ValidChoice:
-                p1WoC = int(input(player1Name + ", " + chooseYourWeapon))
-                if not p1WoC in range(1,5):
-                    print("ERROR:invalid selection. " + player1Name + ", " + chooseYourWeapon)
-                p1ValidChoice = True
-            p2ValidChoice = False
-            while not p2ValidChoice:
-                p2WoC = int(input(player2Name + ", " + chooseYourWeapon))
-                if not p2WoC in range(1,5):
-                    print("ERROR:invalid selection. " + player2Name + ", " + chooseYourWeapon)
-                p2ValidChoice = True
+            p1WoC = getPlayerWeaponOfChoice(player1Name)
+            p2WoC = getPlayerWeaponOfChoice(player2Name)
             compWoC = random.randint(1,4)
             calculateWinnerofRound(player1Name, 0, p1WoC, compWoC)
             calculateWinnerofRound(player2Name, 1, p2WoC, compWoC)
@@ -169,6 +161,18 @@ def play():
         resetCurrentStats()
         stopPlaying = not continuePlaying()
 
+def getPlayerWeaponOfChoice(playerName): #return int
+    while True:
+        choice = input(playerName + ', What weapon will you choose? "1" Rock, "2" Paper, "3" Scissors, or "4" Saw\n')
+        try:
+            choice = int(choice)
+        except ValueError:
+            print(f'ERROR: please enter a number corresponding to weapon selection\n')
+            continue
+        if 1<= choice <= 4:
+            return choice
+        else:
+            print(f'ERROR: please enter a number corresponding to weapon selection\n')
 
 def calculateWinnerofRound(playerName, playerRow, playerChoice, computerChoice):
     if(getWinner(playerChoice,computerChoice)) == 0: # if player and computer choose the same weapon it's a tie
@@ -201,32 +205,32 @@ def gameWinner():
             if(getStat(0,1) < getStat(1,1)): # if player 1 lost the least amount of time player 1 has won the game
                 incrementPlayerStat(0,3,0) # increment player 1 game wins in overallStats
                 incrementPlayerStat(1,4,0) # increment play 2 game loss in overallStats
-                print("Overall Winner is: " + player1Name + "!\n")
+                print("Game Winner is: " + player1Name + "!\n")
             elif(getStat(0,1) == getStat(1,1)): # if players loss are tied, then it's a tie
                 incrementPlayerStat(0,5,0) # increment player 1 game wins in overallStats
                 incrementPlayerStat(1,5,0) # increment play 2 game loss in overallStats
-                print("Overall Winner is: TIE between humans!\n")
+                print("Game Winner is: TIE between humans!\n")
             else:
                 incrementPlayerStat(1,3,0)
                 incrementPlayerStat(0,4,0)
-                print("Overall Winner is: " + player2Name + "!\n")
-        if (getStat(0,0) > getStat(1,1)):
+                print("Game Winner is: " + player2Name + "!\n")
+        elif (getStat(0,0) > getStat(1,1)):
             incrementPlayerStat(0,3,0)
             incrementPlayerStat(1,4,0)
-            print("Overall Winner is: " + player1Name + "!\n")
+            print("Game Winner is: " + player1Name + "!\n")
         else:
             incrementPlayerStat(1,3,0)
             incrementPlayerStat(0,4,0)
-            print("Overall Winner is: " + player2Name + "!\n")
-    if (getStat(0,0) + getStat(1,0)) == getStat(2,0):
+            print("Game Winner is: " + player2Name + "!\n")
+    elif (getStat(0,0) + getStat(1,0)) == getStat(2,0):
         # there is a tie
         incrementPlayerStat(0,5,0)
         incrementPlayerStat(1,5,0)
-        print("Overall Winner is: TIE!\n")
+        print("Game Winner is: TIE!\n")
     else:
         incrementPlayerStat(0,4,0)
         incrementPlayerStat(1,4,0)
-        print("Overall Winner is: Computer!\n")
+        print("Game Winner is: Computer!\n")
 
 def getWeaponFromChoice(weapon):
     if weapon == 1:
