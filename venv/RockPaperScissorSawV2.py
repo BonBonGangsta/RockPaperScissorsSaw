@@ -25,7 +25,6 @@ outcome = [[0, -1, 1, 1], [1, 0, -1, -1], [-1, 1, 0, -1], [-1, 1, 1, 0]]
 def uniqueName(p1name, p2name):
     return p1name.lower() != p2name.lower()
 
-
 # a name is valid when the name's character length is more than the minimum and less than the maximum
 # while also being unique
 def validateName(p1name, p2name):
@@ -48,6 +47,8 @@ def getNames():
             print(f"ERROR: the name entered for player 2 is not valid, name must be more than " + str(MINSIZE) + " and " +
                   "less than " + str(MAXSIZE) + " characters AND must be unique compared to " + player1Name + "'s name.\n")
 
+
+
 ## Menu Module
 # exit the menu and say Goodbye
 def exit():
@@ -69,27 +70,21 @@ def getMenuSelection():
             print(f'ERROR: please enter a number corresponding to menu option\n')
             continue
         if 1<= menuChoice <= 4:
-            return str(menuChoice)
+            return menuChoice
         else:
             print(f'ERROR: please enter a number corresponding to menu option\n')
-
-
 
 # this will control which other functions to call. While the menu is not exited, return to the menu.
 def menu():
     while not gameExited:
         choice = getMenuSelection()
-        if choice == '1':
-            print(f"Players have chosen to play the game!")
+        if choice == 1:
             play()
-        elif choice == '2':
-            print(f"Players have chosen to show the game rules.")
+        elif choice == 2:
             rules()
-        elif choice == '3':
-            print(f"Players have chosen to Show Statistics.")
-            stats()
-        elif choice == '4':
-            print(f"Players have chosen to exit the game.")
+        elif choice == 3:
+            tats()
+        elif choice == 4:
             exit()
 
 ## Statistics Module
@@ -109,24 +104,20 @@ def stats():
     else:
         print(f"Overall human Game Winner is: " + player2Name + "\n")
 
-
 def initializeStats():
     global overallStats
     overallStats = [ [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0] ]
     resetCurrentStats()
 
-
 def resetCurrentStats():
     global currentStats
     currentStats = [ [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0] ]
-
 
 def incrementPlayerStat(player, category, array):
     if array == 0:
         overallStats[player][category] += 1
     else:
         currentStats[player][category] += 1
-
 
 def getStat(player, category):
     return currentStats[player][category]
